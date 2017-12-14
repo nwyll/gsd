@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Countdown, { zeroPad } from 'react-countdown-now';
 
-class Timer extends Component {
+class Session extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      working: false
+      working: true
     }
 
     this.getTimer = this.getTimer.bind(this);
@@ -18,10 +18,15 @@ class Timer extends Component {
     //after 4 work sessions make Take30 available
 
     if (this.state.working) {
-      return <StartSession />;
+      return <Timer
+                minutes={25}
+                completionMessage={"Look at you being all productive!"}
+              />;
     } else {
-      //return <p>BreakTime</p>;
-      return <Take5 />;
+      return <Timer
+                minutes={5}
+                completionMessage={"Get back at it!"}
+              />;
     }
   }
   render() {
@@ -33,7 +38,7 @@ class Timer extends Component {
   }
 }
 
-class StartSession extends Component {
+class Timer extends Component {
   constructor(props) {
     super(props);
 
@@ -57,10 +62,9 @@ class StartSession extends Component {
     });
   }
 
-
   renderer({ minutes, seconds, completed }) {
     const Completed = () => {
-      return <h1>Look at you being all productive!</h1>;
+      return <h1>{this.props.completionMessage}</h1>;
     }
 
     if (completed) {
@@ -74,67 +78,11 @@ class StartSession extends Component {
     return (
       <div>
         {!this.state.inSession && (
-          <h1>25:00</h1>
+          <h1>{this.props.minutes}:00</h1>
         )}
         {this.state.inSession && (
           <Countdown
-            date={Date.now() + 1500000}
-            renderer={this.renderer}
-          />
-        )}
-        <button onClick={this.startTimer}>Start New Session</button>
-        <button onClick={this.reset}>Reset</button>
-      </div>
-    );
-  }
-}
-
-class Take5 extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inSession: false
-    }
-
-    this.startTimer = this.startTimer.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-
-  startTimer() {
-    this.setState((prevState) => {
-      return { inSession: true }
-    });
-  }
-
-  reset() {
-    this.setState((prevState) => {
-      return { inSession: false }
-    });
-  }
-
-
-  renderer({ minutes, seconds, completed }) {
-    const Completed = () => {
-      return <h1>Get back at it!</h1>;
-    }
-
-    if (completed) {
-      return <Completed />;
-    } else {
-      return <h1>{minutes}:{zeroPad(seconds)}</h1>;
-    }
-  };
-
-  render() {
-    return (
-      <div>
-        {!this.state.inSession && (
-          <h1>5:00</h1>
-        )}
-        {this.state.inSession && (
-          <Countdown
-            date={Date.now() + 300000}
+            date={Date.now() + (this.props.minutes * 60 * 1000)}
             renderer={this.renderer}
           />
         )}
@@ -145,5 +93,4 @@ class Take5 extends Component {
   }
 }
 
-
-export default Timer;
+export default Session;

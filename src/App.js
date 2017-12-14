@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Timer from './components/Timer';
+import Session from './components/Session';
 
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  // }
-
   render() {
     const title = "Welcome to GSD";
     const subtitle = "Ready to get sh*t done?";
@@ -19,7 +14,7 @@ class App extends Component {
         {/* <AddTask /> */}
         {/* <TaskList /> */}
           {/* <Task />  subconponent in TaskList*/}
-        <Timer />
+        <Session />
       </div>
     );
   }

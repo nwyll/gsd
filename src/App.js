@@ -1,9 +1,41 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Session from './components/Session';
+import Timer from './components/Timer';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sessionType: "take5"
+    }
+
+    this.getTimer = this.getTimer.bind(this);
+  }
+
+  getTimer(type) {
+        switch(type) {
+      case "working":
+            return <Timer
+              minutes={25}
+              completionMessage={"Look at you being all productive!"}
+            />;
+      case "take5":
+            return <Timer
+              minutes={5}
+              completionMessage={"Keep it going!"}
+            />;
+      case "take30":
+            return <Timer
+              minutes={30}
+              completionMessage={"Time to GSD!"}
+            />;
+      default:
+          return <p>Error</p>;
+    }
+  }
+
   render() {
     const title = "Welcome to GSD";
     const subtitle = "Ready to get sh*t done?";
@@ -14,7 +46,8 @@ class App extends Component {
         {/* <AddTask /> */}
         {/* <TaskList /> */}
           {/* <Task />  subconponent in TaskList*/}
-        <Session />
+        {/* <Timer /> */}
+        {this.getTimer(this.state.sessionType)}
       </div>
     );
   }

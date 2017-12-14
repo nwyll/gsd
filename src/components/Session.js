@@ -6,33 +6,41 @@ class Session extends Component {
     super(props);
 
     this.state = {
-      working: true
+      sessionType: "working"
     }
 
     this.getTimer = this.getTimer.bind(this);
   }
 
-  getTimer() {
+  getTimer(type) {
     //if work session return <StartSession />
     //at end of session return Take5
     //after 4 work sessions make Take30 available
 
-    if (this.state.working) {
-      return <Timer
-                minutes={11}
-                completionMessage={"Look at you being all productive!"}
-              />;
-    } else {
-      return <Timer
-                minutes={5}
-                completionMessage={"Get back at it!"}
-              />;
+    switch(type) {
+      case "working":
+            return <Timer
+              minutes={25}
+              completionMessage={"Look at you being all productive!"}
+            />;
+      case "take5":
+            return <Timer
+              minutes={5}
+              completionMessage={"Keep it going!"}
+            />;
+      case "take30":
+            return <Timer
+              minutes={30}
+              completionMessage={"Time to GSD!"}
+            />;
+      default:
+          return <p>Error</p>;
     }
   }
   render() {
     return(
       <div>
-        {this.getTimer(this.state.working)}
+        {this.getTimer(this.state.sessionType)}
       </div>
     );
   }

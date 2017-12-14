@@ -19,7 +19,7 @@ class Session extends Component {
 
     if (this.state.working) {
       return <Timer
-                minutes={25}
+                minutes={11}
                 completionMessage={"Look at you being all productive!"}
               />;
     } else {
@@ -70,7 +70,11 @@ class Timer extends Component {
     if (completed) {
       return <Completed />;
     } else {
-      return <h1>{zeroPad(minutes)}:{zeroPad(seconds)}</h1>;
+      if (minutes < 10) {
+        return <h1>{minutes}:{zeroPad(seconds)}</h1>;
+      } else {
+        return <h1>{zeroPad(minutes)}:{zeroPad(seconds)}</h1>;
+      }
     }
   };
 

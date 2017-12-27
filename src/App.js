@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Timer from './components/Timer';
 
@@ -8,7 +7,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      sessionType: "take5",
+      sessionType: "working",
       workCounter: 0
     }
 
@@ -19,7 +18,7 @@ class App extends Component {
         switch(type) {
       case "working":
             return <Timer
-              minutes={25}
+              minutes={0.1}
               completionMessage={"Look at you being all productive!"}
             />;
       case "take5":
@@ -48,6 +47,8 @@ class App extends Component {
     return (
       <div className="App">
         <Header title={title} subtitle={subtitle}/>
+        {/* WorkSession Timer */}
+        {/* Break Timer - only shows after a sesion is completed */}
         {/* <AddTask /> */}
         {/* <TaskList /> */}
           {/* <Task />  subcomponent in TaskList*/}
@@ -58,16 +59,13 @@ class App extends Component {
   }
 }
 
-class Header extends Component {
-  render() {
-    return (
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">{this.props.title}</h1>
-        <h2 className="App-subtitle">{this.props.subtitle}</h2>
-      </header>
-    );
-  }
-}
+const Header = (props) => {
+  return (
+    <header className="App-header">
+      <h1 className="App-title">{props.title}</h1>
+      {props.subtitle && <h2 className="App-subtitle">{props.subtitle}</h2>}
+    </header>
+  );
+};
 
 export default App;

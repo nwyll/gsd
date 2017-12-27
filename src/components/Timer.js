@@ -6,11 +6,13 @@ class Timer extends Component {
     super(props);
 
     this.state = {
-      inSession: false
+      inSession: false,
+      timerComplete: false
     }
 
     this.startTimer = this.startTimer.bind(this);
     this.reset = this.reset.bind(this);
+    this.renderer = this.renderer.bind(this);
   }
 
   startTimer() {
@@ -26,13 +28,8 @@ class Timer extends Component {
   }
 
   renderer({ minutes, seconds, completed }) {
-    const Completed = () => {
-      return <h1>{this.props.completionMessage}</h1>;
-      this.props.isFinished();
-    }
-
     if (completed) {
-      return <Completed />;
+      return <Complete />;
     } else {
       if (minutes < 10) {
         return <h1>{minutes}:{zeroPad(seconds)}</h1>;
@@ -46,19 +43,27 @@ class Timer extends Component {
     return (
       <div>
         {!this.state.inSession && (
-          <h1>{this.props.minutes}:00</h1>
+          <div>
+            <h1>{this.props.minutes}:00</h1>
+            <button onClick={this.startTimer}>Start</button>
+          </div>
         )}
         {this.state.inSession && (
-          <Countdown
-            date={Date.now() + (this.props.minutes * 60 * 1000)}
-            renderer={this.renderer}
-          />
+          <div>
+            <Countdown
+              date={Date.now() + (this.props.minutes * 60 * 1000)}
+              renderer={this.renderer}
+            />
+            <button onClick={this.reset}>Reset</button>
+          </div>
         )}
-        <button onClick={this.startTimer}>Start</button>
-        <button onClick={this.reset}>Reset</button>
+
+
       </div>
     );
   }
 }
+
+const Complete = () => <h2>Look at you being productive!</h2>;
 
 export default Timer;

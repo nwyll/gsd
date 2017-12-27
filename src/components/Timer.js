@@ -28,6 +28,7 @@ class Timer extends Component {
   renderer({ minutes, seconds, completed }) {
     const Completed = () => {
       return <h1>{this.props.completionMessage}</h1>;
+      this.props.isFinished();
     }
 
     if (completed) {

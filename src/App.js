@@ -8,7 +8,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      sessionType: "take5"
+      sessionType: "take5",
+      workCounter: 0
     }
 
     this.getTimer = this.getTimer.bind(this);
@@ -36,6 +37,10 @@ class App extends Component {
     }
   }
 
+  isFinished(){
+    //if work sesion completed => getTimer(take5);
+  }
+
   render() {
     const title = "Welcome to GSD";
     const subtitle = "Ready to get sh*t done?";
@@ -45,7 +50,7 @@ class App extends Component {
         <Header title={title} subtitle={subtitle}/>
         {/* <AddTask /> */}
         {/* <TaskList /> */}
-          {/* <Task />  subconponent in TaskList*/}
+          {/* <Task />  subcomponent in TaskList*/}
         {/* <Timer /> */}
         {this.getTimer(this.state.sessionType)}
       </div>

@@ -18,7 +18,7 @@ class App extends Component {
         switch(type) {
       case "working":
             return <Timer
-              minutes={0.1}
+              minutes={25}
               completionMessage={"Look at you being all productive!"}
             />;
       case "take5":

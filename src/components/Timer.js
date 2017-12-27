@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Countdown, { zeroPad } from 'react-countdown-now';
+// import Countdown, { zeroPad } from 'react-countdown-now';
+import Countdown from './CountdownTwo';
 
 class Timer extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Timer extends Component {
 
     this.startTimer = this.startTimer.bind(this);
     this.reset = this.reset.bind(this);
-    this.renderer = this.renderer.bind(this);
+    // this.renderer = this.renderer.bind(this);
   }
 
   startTimer() {
@@ -27,17 +28,17 @@ class Timer extends Component {
     });
   }
 
-  renderer({ minutes, seconds, completed }) {
-    if (completed) {
-      return <Complete />;
-    } else {
-      if (minutes < 10) {
-        return <h1>{minutes}:{zeroPad(seconds)}</h1>;
-      } else {
-        return <h1>{zeroPad(minutes)}:{zeroPad(seconds)}</h1>;
-      }
-    }
-  };
+  // renderer({ minutes, seconds, completed }) {
+  //   if (completed) {
+  //     return <Complete />;
+  //   } else {
+  //     if (minutes < 10) {
+  //       return <h1>{minutes}:{zeroPad(seconds)}</h1>;
+  //     } else {
+  //       return <h1>{zeroPad(minutes)}:{zeroPad(seconds)}</h1>;
+  //     }
+  //   }
+  // };
 
   render() {
     return (
@@ -50,10 +51,11 @@ class Timer extends Component {
         )}
         {this.state.inSession && (
           <div>
-            <Countdown
-              date={Date.now() + (this.props.minutes * 60 * 1000)}
-              renderer={this.renderer}
-            />
+            <Countdown minutes={this.props.minutes} />
+            {/* <Countdown
+              targetDate={Date.now() + (this.props.minutes * 60 * 1000)}
+              // renderer={this.renderer}
+            /> */}
             <button onClick={this.reset}>Reset</button>
           </div>
         )}
@@ -64,6 +66,6 @@ class Timer extends Component {
   }
 }
 
-const Complete = () => <h2>Look at you being productive!</h2>;
+// const Complete = () => <h2>Look at you being productive!</h2>;
 
 export default Timer;

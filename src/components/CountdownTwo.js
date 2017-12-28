@@ -9,27 +9,30 @@ class Countdown extends Component {
       complete: false
     }
 
-    this.getRemainingTime = this.getRemainingTime.bind(this);
+    this.tick = this.tick.bind(this);
   }
 
   componentWillMount() {
-// console.log(this.props.totalTimeInSeconds);
     this.setState(() => ({ timeRemaining: this.props.totalTimeInSeconds }));
   }
 
   componentDidMount() {
-    setInterval(() => this.getRemainingTime(this.state.timeRemaining), 1000);
+    this.timer = setInterval(() => this.tick(this.state.timeRemaining), 1000);
   }
 
-  getRemainingTime(currentTime) {
-console.log('getRemainingTime called');
-    if (!this.state.complete) {
-      const newTimeRemaining = currentTime - 1;
-console.log('newtimeRemaining', newTimeRemaining);
-      this.setState(() => ({ timeRemaining: newTimeRemaining }));
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
 
-      if (newTimeRemaining === 0) {
+  tick() {
+    if (!this.state.complete) {
+      this.setState((prevState) => ({
+        timeRemaining: prevState.timeRemaining - 1
+      }));
+
+      if (this.state.timeRemaining === 0) {
         this.setState(() => ({ complete: true }));
+        clearInterval(this.timer);
       }
     }
   }

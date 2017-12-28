@@ -45,15 +45,23 @@ class App extends Component {
     const subtitle = "Ready to get sh*t done?";
 
     return (
-      <div className="App">
-        <Header title={title} subtitle={subtitle}/>
-        {/* WorkSession Timer */}
-        {/* Break Timer - only shows after a sesion is completed */}
-        {/* <AddTask /> */}
-        {/* <TaskList /> */}
-          {/* <Task />  subcomponent in TaskList*/}
-        {/* <Timer /> */}
-        {this.getTimer(this.state.sessionType)}
+      <div className="App panel panel-default center-block">
+        <div className="panel-body">
+          <div className="container-fluid">
+            <div className="row">
+              <Header title={title} subtitle={subtitle}/>
+            </div>
+            <div className="row">
+              {/* WorkSession Timer */}
+              {/* Break Timer - only shows after a sesion is completed */}
+              {/* <AddTask /> */}
+              {/* <TaskList /> */}
+                {/* <Task />  subcomponent in TaskList*/}
+              {/* <Timer /> */}
+              {this.getTimer(this.state.sessionType)}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -28,18 +28,6 @@ class Timer extends Component {
     });
   }
 
-  // renderer({ minutes, seconds, completed }) {
-  //   if (completed) {
-  //     return <Complete />;
-  //   } else {
-  //     if (minutes < 10) {
-  //       return <h1>{minutes}:{zeroPad(seconds)}</h1>;
-  //     } else {
-  //       return <h1>{zeroPad(minutes)}:{zeroPad(seconds)}</h1>;
-  //     }
-  //   }
-  // };
-
   render() {
     return (
       <div>
@@ -51,12 +39,8 @@ class Timer extends Component {
         )}
         {this.state.inSession && (
           <div>
-
-            <Countdown totalTimeInSeconds={5} />
-            {/* <Countdown
-              targetDate={Date.now() + (this.props.minutes * 60 * 1000)}
-              // renderer={this.renderer}
-            /> */}
+            <Countdown totalTimeInSeconds={this.props.minutes * 60} />
+            {/* <Countdown totalTimeInSeconds={5} /> */}
             <button onClick={this.reset}>Reset</button>
           </div>
         )}

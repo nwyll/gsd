@@ -51,7 +51,8 @@ class Timer extends Component {
         )}
         {this.state.inSession && (
           <div>
-            <Countdown minutes={this.props.minutes} />
+
+            <Countdown totalTimeInSeconds={5} />
             {/* <Countdown
               targetDate={Date.now() + (this.props.minutes * 60 * 1000)}
               // renderer={this.renderer}

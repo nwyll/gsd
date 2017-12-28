@@ -5,26 +5,50 @@ class Countdown extends Component {
     super(props);
 
     this.state = {
-      timeRemaining: 0
+      timeRemaining: 0,
+      complete: false
     }
+
+    this.getRemainingTime = this.getRemainingTime.bind(this);
+  }
+
+  componentWillMount() {
+// console.log(this.props.totalTimeInSeconds);
+    this.setState(() => ({ timeRemaining: this.props.totalTimeInSeconds }));
   }
 
   componentDidMount() {
-    this.setState(() => ({ timeRemaining: this.props.minutes * 60 }));
+    setInterval(() => this.getRemainingTime(this.state.timeRemaining), 1000);
   }
 
-  getRemainingTime() {
+  getRemainingTime(currentTime) {
+console.log('getRemainingTime called');
+    if (!this.state.complete) {
+      const newTimeRemaining = currentTime - 1;
+console.log('newtimeRemaining', newTimeRemaining);
+      this.setState(() => ({ timeRemaining: newTimeRemaining }));
 
+      if (newTimeRemaining === 0) {
+        this.setState(() => ({ complete: true }));
+      }
+    }
   }
 
-  formatTime() {
-    
+  formatTime(timeInSeconds) {
+    let seconds = timeInSeconds % 60;
+    let minutes = Math.floor(timeInSeconds / (60));
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ':' + seconds;
   }
 
   render() {
+    const timeRemaining = this.state.timeRemaining;
+
     return (
       <div>
-        <h1>{this.state.timeRemaining}</h1>
+        <h1>{this.formatTime(timeRemaining)}</h1>
       </div>
     )
   }

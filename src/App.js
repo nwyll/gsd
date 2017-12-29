@@ -69,6 +69,12 @@ class App extends Component {
     });
   }
 
+  timerFinished(){
+    //set status to COMPLETE
+    //show buttons again
+    //if work sesion completed => allow take break button;  
+  }
+
   handleAddTask() {
     alert('handleAddTask');
   }
@@ -76,10 +82,6 @@ class App extends Component {
   handleClearList() {
     alert('handleCLearList');
   }
-
-  // isFinished(){
-  //   //if work sesion completed => getTimer(take5);
-  // }
 
   render() {
     const title = "Welcome to GSD";

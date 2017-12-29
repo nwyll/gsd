@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import Countdown, { zeroPad } from 'react-countdown-now';
 import Countdown from './CountdownTwo';
 
 class Timer extends Component {
@@ -7,40 +6,34 @@ class Timer extends Component {
     super(props);
 
     this.state = {
-      inSession: false,
+      timerGoing: false,
       timerComplete: false
     }
 
     this.startTimer = this.startTimer.bind(this);
     this.reset = this.reset.bind(this);
-    // this.renderer = this.renderer.bind(this);
   }
 
   startTimer() {
-    this.setState((prevState) => {
-      return { inSession: true }
-    });
+    this.setState(() => ({ timerGoing: true }) );
   }
 
   reset() {
-    this.setState((prevState) => {
-      return { inSession: false }
-    });
+    this.setState(() => ({ timerGoing: false }) );
   }
 
   render() {
     return (
       <div>
-        {!this.state.inSession && (
+        {!this.state.timerGoing && (
           <div>
             <h1>{this.props.minutes}:00</h1>
             <button onClick={this.startTimer}>Start</button>
           </div>
         )}
-        {this.state.inSession && (
+        {this.state.timerGoing && (
           <div>
             <Countdown totalTimeInSeconds={this.props.minutes * 60} />
-            {/* <Countdown totalTimeInSeconds={5} /> */}
             <button onClick={this.reset}>Reset</button>
           </div>
         )}

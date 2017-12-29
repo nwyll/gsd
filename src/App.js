@@ -99,19 +99,26 @@ class App extends Component {
                   tasks={this.state.tasks}
                   handleClearList={this.handleClearList}
                 />
-                  {/* <Task />  subcomponent in TaskList*/}
-                {/* WorkSession Button */}
-                {/* Break Button - only shows after a sesion is completed */}
               </div>
               <div className="col-sm-7 col-right">  {/* Timer Section */}
-                <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
-                  Start Work Session
-                </button>
-                <button className="btn btn-default" onClick={this.handleTakeBreak}> {/* disabled={this.state.status !== COMPLETE} */}
-                  Take A Break
-                </button>
-                {/* Timer apears when click work session or break buttons */}
-                {(this.state.status === STARTED) && this.getTimer(this.state.sessionType)}
+                {/* buttons disapear when timer is going */}
+                {
+                  this.state.status !== STARTED &&
+                  (
+                    <div>
+                      <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
+                        Start Work Session
+                      </button>
+                      <button className="btn btn-default"
+                        onClick={this.handleTakeBreak}
+                        disabled={this.state.status !== COMPLETE} >
+                        Take A Break
+                      </button>
+                    </div>
+                  )
+                }
+                {/* Timer apears when click work-session or break buttons */}
+                { this.state.status === STARTED && this.getTimer(this.state.sessionType)}
               </div>
             </div>
           </div>

@@ -2,33 +2,44 @@ import React, { Component } from 'react';
 import './App.css';
 import Timer from './components/Timer';
 
+const WORK = 1;
+const BREAK5 = 2;
+const BREAK30 = 3;
+
+const NOT_STARTED = 1;
+const STARTED = 2;
+const COMPLETE = 3;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sessionType: "working",
+      status: NOT_STARTED,
+      sessionType: null,
       workCounter: 0,
       tasks: ["Pomodoro Project", "Indecision App", "Resume"],
     }
 
     this.getTimer = this.getTimer.bind(this);
+    this.handleStartWorkSession = this.handleStartWorkSession.bind(this);
+    this.handleTakeBreak = this.handleTakeBreak.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
   }
 
   getTimer(type) {
-        switch(type) {
-      case "working":
+    switch(type) {
+      case WORK:
             return <Timer
               minutes={25}
               completionMessage={"Look at you being all productive!"}
             />;
-      case "take5":
+      case BREAK5:
             return <Timer
               minutes={5}
               completionMessage={"Keep it going!"}
             />;
-      case "take30":
+      case BREAK30:
             return <Timer
               minutes={30}
               completionMessage={"Time to GSD!"}
@@ -36,6 +47,26 @@ class App extends Component {
       default:
           return <p>Error</p>;
     }
+  }
+
+  handleStartWorkSession() {
+    // set status to started and sessionType to work
+    this.setState(() => {
+      return {
+        status: STARTED,
+        sessionType: WORK
+      }
+    });
+  }
+
+  handleTakeBreak() {
+    // set status to started and sessionType to take5
+    this.setState(() => {
+      return {
+        status: STARTED,
+        sessionType: BREAK5
+      }
+    });
   }
 
   handleAddTask() {
@@ -71,11 +102,16 @@ class App extends Component {
                   {/* <Task />  subcomponent in TaskList*/}
                 {/* WorkSession Button */}
                 {/* Break Button - only shows after a sesion is completed */}
-
               </div>
-              <div className="col-sm-7 col-right">
-                {/* <Timer /> */}
-                {this.getTimer(this.state.sessionType)}
+              <div className="col-sm-7 col-right">  {/* Timer Section */}
+                <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
+                  Start Work Session
+                </button>
+                <button className="btn btn-default" onClick={this.handleTakeBreak}> {/* disabled={this.state.status !== COMPLETE} */}
+                  Take A Break
+                </button>
+                {/* Timer apears when click work session or break buttons */}
+                {(this.state.status === STARTED) && this.getTimer(this.state.sessionType)}
               </div>
             </div>
           </div>
@@ -117,7 +153,7 @@ class AddTask extends Component {
         <h2>Task History</h2>
         <form onSubmit={this.handleAddTask}>
           <input type="text" name="task" />
-          <button>Add Task</button>
+          <button className="btn btn-default">Add Task</button>
         </form>
 
       </div>
@@ -131,7 +167,9 @@ const TaskList = (props) => {
       {
         props.tasks.map((task) => <TaskItem key={task} taskText={task} />)
       }
-      <button onClick={props.handleClearList}>Clear Task List</button>
+      <button onClick={props.handleClearList} className="btn btn-default">
+        Clear Task List
+      </button>
     </div>
   );
 };

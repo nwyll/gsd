@@ -25,6 +25,7 @@ class App extends Component {
     this.handleTakeBreak = this.handleTakeBreak.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
+    this.timerFinished = this.timerFinished.bind(this);
   }
 
   getTimer(type) {
@@ -32,17 +33,17 @@ class App extends Component {
       case WORK:
             return <Timer
               minutes={25}
-              completionMessage={"Look at you being all productive!"}
+              timerFinished={this.timerFinished}
             />;
       case BREAK5:
             return <Timer
               minutes={5}
-              completionMessage={"Keep it going!"}
+              timerFinished={this.timerFinished}
             />;
       case BREAK30:
             return <Timer
               minutes={30}
-              completionMessage={"Time to GSD!"}
+              timerFinished={this.timerFinished}
             />;
       default:
           return <p>Error</p>;
@@ -69,8 +70,9 @@ class App extends Component {
     });
   }
 
-  timerFinished(){
+  timerFinished() {
     //set timerStatus to COMPLETE
+    this.setState(() => ({ timerStatus: COMPLETE }));
     //show buttons again
     //if work sesion completed => allow take break button;
   }

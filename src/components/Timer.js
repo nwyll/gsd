@@ -32,7 +32,11 @@ class Timer extends Component {
         )}
         {this.state.timerGoing && (
           <div>
-            <Countdown totalTimeInSeconds={this.props.minutes * 60} />
+            <Countdown
+              totalTimeInSeconds={this.props.minutes * 60}
+              timerFinished={this.props.timerFinished}
+              completionMessage={this.props.completionMessage}
+            />
             <button onClick={this.reset}>Reset</button>
           </div>
         )}

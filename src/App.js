@@ -126,7 +126,7 @@ class App extends Component {
                       </button>
                       <button className="btn btn-default"
                         onClick={this.handleTakeBreak}
-                        disabled={this.state.timerStatus !== COMPLETE} >
+                        disabled={this.state.sessionType === null || this.state.sessionType === BREAK5} >
                         Take A Break
                       </button>
                     </div>

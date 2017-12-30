@@ -7,7 +7,6 @@ class Timer extends Component {
 
     this.state = {
       timerGoing: false,
-      timerComplete: false
     }
 
     this.startTimer = this.startTimer.bind(this);
@@ -37,13 +36,9 @@ class Timer extends Component {
             <button onClick={this.reset}>Reset</button>
           </div>
         )}
-
-
       </div>
     );
   }
 }
-
-// const Complete = () => <h2>Look at you being productive!</h2>;
 
 export default Timer;

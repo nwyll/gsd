@@ -20,6 +20,10 @@ class App extends Component {
       tasks: ["Pomodoro Project", "Indecision App", "Resume"],
     }
 
+    this.audioElement = document.createElement('audio');
+    this.audioElement.src = '/assets/Elevator-Ding-Sound.mp3';
+    this.audioElement.preload = 'auto';
+
     this.getTimer = this.getTimer.bind(this);
     this.handleStartWorkSession = this.handleStartWorkSession.bind(this);
     this.handleTakeBreak = this.handleTakeBreak.bind(this);
@@ -33,17 +37,17 @@ class App extends Component {
     switch(type) {
       case WORK:
             return <Timer
-              minutes={25}
+              minutes={.05}
               timerFinished={this.timerFinished}
             />;
       case BREAK5:
             return <Timer
-              minutes={5}
+              minutes={.05}
               timerFinished={this.timerFinished}
             />;
       case BREAK30:
             return <Timer
-              minutes={30}
+              minutes={.05}
               timerFinished={this.timerFinished}
             />;
       default:
@@ -83,16 +87,23 @@ class App extends Component {
   }
 
   timerFinished() {
-    //set timerStatus to COMPLETE
-    this.setState(() => ({ timerStatus: COMPLETE }));
-    //if work sesion completed => add to workCounter
-    if (this.state.sessionType === WORK) {
-      this.setState((prevState) => {
-        return {
-          workCounter: prevState.workCounter + 1
-        }
-      });
-    }
+    //play ding
+    this.audioElement.play();
+
+    //pause before taking timer display away
+    setTimeout(() => {
+      //set timerStatus to COMPLETE
+      this.setState(() => ({ timerStatus: COMPLETE }));
+
+      //if a work sesion completed => add +1 to workCounter
+      if (this.state.sessionType === WORK) {
+        this.setState((prevState) => {
+          return {
+            workCounter: prevState.workCounter + 1
+          }
+        });
+      }
+    }, 2500);
   }
 
   handleAddTask(newTask) {

@@ -1,132 +1,61 @@
-import React, {Component, PropTypes} from 'react'
-import moment from 'moment'
-
-const COUNTDOWN_NOT_STARTED = 1
-const COUNTDOWN_STARTED = 2
-const COUNTDOWN_FINISHED = 3
+import React, {Component} from 'react';
 
 class Countdown extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
+
     this.state = {
-      remainingTime: 0,
-      status: COUNTDOWN_NOT_STARTED,
-      intervalId: null
+      timeRemaining: 0,
+      complete: false
     }
+
+    this.tick = this.tick.bind(this);
   }
 
-  componentDidMount = () => {
-    setTimeout(() => {
-      let timer = setInterval(() => {
-        this.tick()
-      }, 1000)
-
-      this.setState({
-        status: COUNTDOWN_STARTED,
-        intervalId: timer
-      })
-
-      this.tick()
-    }, this.props.startDelay)
+  componentWillMount() {
+    this.setState(() => ({ timeRemaining: this.props.totalTimeInSeconds }));
   }
 
-  componentWillUnmount = () => {
-    clearInterval(this.state.intervalId)
+  componentDidMount() {
+    this.timer = setInterval(() => this.tick(this.state.timeRemaining), 1000);
   }
 
-  calculateRemainingTime = () => {
-    return -1 * moment().diff(this.props.targetDate)
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
-  addLeadingZero = (value) => {
-    if (value < 10) {
-      return '0' + value.toString()
-    }
-    return value
-  }
+  tick() {
+    if (!this.state.complete) {
+      this.setState((prevState) => ({
+        timeRemaining: prevState.timeRemaining - 1
+      }));
 
-  tick = () => {
-    this.setState({
-      remainingTime: this.calculateRemainingTime()
-    })
-
-    if (this.state.remainingTime <= 0) {
-      this.setState({
-        status: COUNTDOWN_FINISHED
-      })
-
-      if (this.props.onFinished) {
-        this.props.onFinished()
+      if (this.state.timeRemaining === 0) {
+        this.setState(() => ({ complete: true }) );
+        clearInterval(this.timer);
+        this.props.timerFinished();
       }
-      clearInterval(this.state.intervalId)
     }
   }
 
-  renderRemainingTime = () => {
-    let html = []
-    let { format, leadingZero, timeSeparator } = this.props
-    let { remainingTime } = this.state
+  formatTime(timeInSeconds) {
+    let seconds = timeInSeconds % 60;
+    let minutes = Math.floor(timeInSeconds / (60));
 
-    if (format.minute) {
-      let minutes = moment.duration(remainingTime).get('minutes')
-      if (leadingZero) {
-        minutes = this.addLeadingZero(minutes)
-      }
-      html.push(
-        <span className='react-cntdwn-minute' key='minute'>
-          {minutes}{timeSeparator}
-        </span>
-      )
-    }
+    seconds = seconds < 10 ? '0' + seconds : seconds;
 
-    if (format.second) {
-      let seconds = moment.duration(remainingTime).get('seconds')
-      if (leadingZero) {
-        seconds = this.addLeadingZero(seconds)
-      }
-      html.push(
-        <span className='react-cntdwn-second' key='second'>
-          {seconds}
-        </span>
-      )
-    }
-
-    return html
+    return minutes + ':' + seconds;
   }
 
-  render = () => {
-    if (this.state.status === COUNTDOWN_NOT_STARTED) {
-      return (
-        <span></span>
-      )
-    }
+  render() {
+    const timeRemaining = this.state.timeRemaining;
+
     return (
-      <div className='react-cntdwn-timer'>
-        {this.renderRemainingTime()}
+      <div>
+        <h1>{this.formatTime(timeRemaining)}</h1>
       </div>
     )
   }
-}
-
-// Countdown.propTypes = {
-//   targetDate: PropTypes.instanceOf(Date).isRequired,
-//   interval: PropTypes.number,
-//   startDelay: PropTypes.number,
-//   format: PropTypes.object,
-//   timeSeparator: PropTypes.string,
-//   leadingZero: PropTypes.bool,
-//   onFinished: PropTypes.func
-// }
-
-Countdown.defaultProps = {
-  interval: 1000,
-  startDelay: 0,
-  format: {
-    minute: 'MM',
-    second: 'SS'
-  },
-  timeSeparator: ':',
-  leadingZero: true
 }
 
 export default Countdown;

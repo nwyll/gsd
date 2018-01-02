@@ -4,9 +4,9 @@ const TaskList = (props) => {
   return (
     <div className="task-list">
       {
-        props.tasks.slice(0).reverse().map((task) => <TaskItem key={task} taskText={task} />)
+        props.tasks.slice(0).reverse().map((task, index) => <TaskItem key={index} taskText={task} />)
       }
-      <button className="btn btn-default"
+      <button className="btn btn-secondary"
         onClick={props.handleClearList}
         disabled={!props.hasTasks}
       >

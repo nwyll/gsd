@@ -97,7 +97,7 @@ class App extends Component {
       //set timerStatus to COMPLETE
       this.setState(() => ({ timerStatus: COMPLETE }));
 
-      //if a work sesion completed => add +1 to workCounter
+      //if a work sesion has just completed => add +1 to workCounter
       if (this.state.sessionType === WORK) {
         this.setState((prevState) => {
           return {
@@ -105,7 +105,7 @@ class App extends Component {
           }
         });
       }
-    }, 2500);
+    }, 2000);
   }
 
   handleAddTask(newTask) {
@@ -130,54 +130,49 @@ class App extends Component {
     const subtitle = "Ready to get sh*t done?";
 
     return (
-      <div className="App panel panel-default center-block">
-        <div className="panel-body">
-          <div className="container-fluid">
-            <Header title={title} subtitle={subtitle}/>
-            <div className="row">
-              <div className="col-sm-5 col-left">
-                <AddTask
-                  handleAddTask={this.handleAddTask}
-                />
-                <TaskList
-                  tasks={this.state.tasks}
-                  hasTasks={this.state.tasks.length > 0}
-                  handleClearList={this.handleClearList}
-                />
-              </div>
-              {/* Timer Section */}
-              <div className="col-sm-7 col-right">
-                {/* buttons disapear when timer is going */}
-                {
-                  this.state.workCounter < 4 &&
-                  (
-                    this.state.timerStatus !== STARTED  &&
-                    (
-                      <div>
-                        <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
-                          Start Work Session
-                        </button>
-                        <button className="btn btn-default"
-                          onClick={this.handleBreakShort}
-                          disabled={this.state.workCounter === 0} >
-                          Take A Break
-                        </button>
-                      </div>
-                    )
-                  )
-                }
-                {/* 30-min break timer appears after 4 work sessions completed */}
-                {this.state.workCounter === 4 &&
-                  <div>
-                    <p>Look at you being all productive! You deserve a longer break.</p>
-                    <button className="btn btn-primary" onClick={this.handleBreakLong}>
-                      30 Minute Break
+      <div className="App container-fluid h-100">
+        <Header title={title} subtitle={subtitle}/>
+        <div className="row d-flex">
+          <div className="col-sm-5 h-100 sidebar">
+            <AddTask
+              handleAddTask={this.handleAddTask}
+            />
+            <TaskList
+              tasks={this.state.tasks}
+              hasTasks={this.state.tasks.length > 0}
+              handleClearList={this.handleClearList}
+            />
+          </div>
+          {/* Timer Section */}
+          <div className="col-sm-7 h-100">
+            <div className="d-flex h-100 timer-main">
+              {/* buttons disapear when timer is going */}
+              {
+                this.state.timerStatus !== STARTED && this.state.workCounter < 4 &&
+                (
+                  <div className="d-flex">
+                    <button className="btn btn-primary m-2" onClick={this.handleStartWorkSession}>
+                      Start Work Session
+                    </button>
+                    <button className="btn btn-secondary m-2"
+                      onClick={this.handleBreakShort}
+                      disabled={this.state.workCounter === 0} >
+                      Take A Quick Break
                     </button>
                   </div>
-                }
-                {/* Timer apears when click work-session or break buttons */}
-                { this.state.timerStatus === STARTED && this.getTimer(this.state.sessionType)}
-              </div>
+                )
+              }
+              {/* 30-min break timer appears after 4 work sessions completed */}
+              {this.state.workCounter === 4 &&
+                <div>
+                  <p>Look at you being all productive! You deserve a longer break.</p>
+                  <button className="btn btn-primary" onClick={this.handleBreakLong}>
+                    15 Minute Break
+                  </button>
+                </div>
+              }
+              {/* Timer apears when click work-session or break buttons */}
+              { this.state.timerStatus === STARTED && this.getTimer(this.state.sessionType)}
             </div>
           </div>
         </div>
@@ -196,8 +191,5 @@ const Header = (props) => {
     </div>
   );
 };
-
-
-
 
 export default App;

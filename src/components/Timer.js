@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Countdown from './CountdownTwo';
+import Countdown from './Countdown';
 
 class Timer extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Timer extends Component {
         {!this.state.timerGoing && (
           <div>
             <h1>{this.props.minutes}:00</h1>
-            <button onClick={this.startTimer}>Start</button>
+            <button className="btn btn-outline-primary" onClick={this.startTimer}>Start</button>
           </div>
         )}
         {this.state.timerGoing && (
@@ -35,9 +35,8 @@ class Timer extends Component {
             <Countdown
               totalTimeInSeconds={this.props.minutes * 60}
               timerFinished={this.props.timerFinished}
-              completionMessage={this.props.completionMessage}
             />
-            <button onClick={this.reset}>Reset</button>
+            <button className="btn btn-outline-secondary" onClick={this.reset}>Reset</button>
           </div>
         )}
       </div>

@@ -1,6 +1,9 @@
+html,body {
+  height: 100%;
+}
+
 .App {
   width: 800px;
-  min-height: 600px;
   margin-top: 100px;
   padding: 40px;
 }
@@ -11,22 +14,30 @@
   height: 150px;
   padding: 20px;
   color: white;
+  width: 100%;
 }
 
 .App-title {
   font-size: 1.5em;
 }
 
-.col-left {
-  background-color: #D3D3D3;
+.main {
+ height: 500px;
 }
 
-.col-right {
+.sidebar {
+  background-color: #D3D3D3;
+  overflow-y: auto;
+}
+
+.timer-main {
+  justify-content: center;
   text-align: center;
+  align-items: center;
 }
 
 .task-list {
-  padding-left: 20px;
+  padding: 20px 0 0 20px;
 }
 
 @media (max-width: 650px) {

@@ -32,29 +32,11 @@ class AddTask extends Component {
         {this.state.error && <p>{this.state.error}</p>}
         <form onSubmit={this.handleAddTask}>
           <input type="text" name="task" />
-          <button className="btn btn-default">Add Task</button>
+          <button className="btn btn-secondary btn-sm m-2">Add Task</button>
         </form>
       </div>
     );
   }
 }
-
-const TaskList = (props) => {
-  return (
-    <div className="task-list">
-      {
-        props.tasks.slice(0).reverse().map((task) => <TaskItem key={task} taskText={task} />)
-      }
-      <button className="btn btn-default"
-        onClick={props.handleClearList}
-        disabled={!props.hasTasks}
-      >
-        Clear Task List
-      </button>
-    </div>
-  );
-};
-
-const TaskItem = (props) => <p>{props.taskText}</p>;
 
 export default AddTask;

@@ -132,7 +132,7 @@ class App extends Component {
     return (
       <div className="App container-fluid h-100">
         <Header title={title} subtitle={subtitle}/>
-        <div className="row d-flex">
+        <div className="row d-flex main">
           <div className="col-sm-5 h-100 sidebar">
             <AddTask
               handleAddTask={this.handleAddTask}

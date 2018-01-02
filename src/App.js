@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import Timer from './components/Timer';
+import AddTask from './components/AddTask';
+import TaskList from './components/TaskList';
 
 const WORK = 1;
-const BREAK5 = 2;
-const BREAK30 = 3;
+const BREAKSHORT = 2;
+const BREAKLONG = 3;
 
 const NOT_STARTED = 1;
 const STARTED = 2;
@@ -26,8 +28,8 @@ class App extends Component {
 
     this.getTimer = this.getTimer.bind(this);
     this.handleStartWorkSession = this.handleStartWorkSession.bind(this);
-    this.handleTakeBreak = this.handleTakeBreak.bind(this);
-    this.handleBreak30 = this.handleBreak30.bind(this);
+    this.handleBreakShort = this.handleBreakShort.bind(this);
+    this.handleBreakLong = this.handleBreakLong.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
     this.timerFinished = this.timerFinished.bind(this);
@@ -40,12 +42,12 @@ class App extends Component {
               minutes={.05}
               timerFinished={this.timerFinished}
             />;
-      case BREAK5:
+      case BREAKSHORT:
             return <Timer
               minutes={.05}
               timerFinished={this.timerFinished}
             />;
-      case BREAK30:
+      case BREAKLONG:
             return <Timer
               minutes={.05}
               timerFinished={this.timerFinished}
@@ -65,22 +67,22 @@ class App extends Component {
     });
   }
 
-  handleTakeBreak() {
+  handleBreakShort() {
     // set timerStatus to started and sessionType to take5
     this.setState(() => {
       return {
         timerStatus: STARTED,
-        sessionType: BREAK5
+        sessionType: BREAKSHORT
       }
     });
   }
 
-  handleBreak30() {
+  handleBreakLong() {
     // set timerStatus to started and sessionType to take5
     this.setState(() => {
       return {
         timerStatus: STARTED,
-        sessionType: BREAK30,
+        sessionType: BREAKLONG,
         workCounter: 0
       }
     });
@@ -156,7 +158,7 @@ class App extends Component {
                           Start Work Session
                         </button>
                         <button className="btn btn-default"
-                          onClick={this.handleTakeBreak}
+                          onClick={this.handleBreakShort}
                           disabled={this.state.workCounter === 0} >
                           Take A Break
                         </button>
@@ -168,7 +170,7 @@ class App extends Component {
                 {this.state.workCounter === 4 &&
                   <div>
                     <p>Look at you being all productive! You deserve a longer break.</p>
-                    <button className="btn btn-primary" onClick={this.handleBreak30}>
+                    <button className="btn btn-primary" onClick={this.handleBreakLong}>
                       30 Minute Break
                     </button>
                   </div>
@@ -195,62 +197,7 @@ const Header = (props) => {
   );
 };
 
-class AddTask extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: undefined
-    };
 
-    this.handleAddTask = this.handleAddTask.bind(this);
-  }
-
-  handleAddTask(e) {
-    // prevent screen refresh
-    e.preventDefault();
-    const newTask = e.target.elements.task.value.trim();
-
-    //handleAddTask above only returns a message if something went wrong,
-    //otherwise it returns undefined (ie all is good, state updated)
-    //if there is an error update the state here with the error message
-    const error = this.props.handleAddTask(newTask);
-    this.setState(() => ({ error }));
-
-    // clear text from form input
-    e.target.elements.task.value = '';
-  }
-
-  render () {
-    return (
-      <div>
-        <h2>Task History</h2>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.handleAddTask}>
-          <input type="text" name="task" />
-          <button className="btn btn-default">Add Task</button>
-        </form>
-      </div>
-    );
-  }
-}
-
-const TaskList = (props) => {
-  return (
-    <div className="task-list">
-      {
-        props.tasks.slice(0).reverse().map((task) => <TaskItem key={task} taskText={task} />)
-      }
-      <button className="btn btn-default"
-        onClick={props.handleClearList}
-        disabled={!props.hasTasks}
-      >
-        Clear Task List
-      </button>
-    </div>
-  );
-};
-
-const TaskItem = (props) => <p>{props.taskText}</p>;
 
 
 export default App;

@@ -23,6 +23,7 @@ class App extends Component {
     this.getTimer = this.getTimer.bind(this);
     this.handleStartWorkSession = this.handleStartWorkSession.bind(this);
     this.handleTakeBreak = this.handleTakeBreak.bind(this);
+    this.handleBreak30 = this.handleBreak30.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
     this.timerFinished = this.timerFinished.bind(this);
@@ -70,11 +71,28 @@ class App extends Component {
     });
   }
 
+  handleBreak30() {
+    // set timerStatus to started and sessionType to take5
+    this.setState(() => {
+      return {
+        timerStatus: STARTED,
+        sessionType: BREAK30,
+        workCounter: 0
+      }
+    });
+  }
+
   timerFinished() {
     //set timerStatus to COMPLETE
     this.setState(() => ({ timerStatus: COMPLETE }));
-    //show buttons again
-    //if work sesion completed => allow take break button;
+    //if work sesion completed => add to workCounter
+    if (this.state.sessionType === WORK) {
+      this.setState((prevState) => {
+        return {
+          workCounter: prevState.workCounter + 1
+        }
+      });
+    }
   }
 
   handleAddTask(newTask) {
@@ -118,19 +136,31 @@ class App extends Component {
               <div className="col-sm-7 col-right">
                 {/* buttons disapear when timer is going */}
                 {
-                  this.state.timerStatus !== STARTED &&
+                  this.state.workCounter < 4 &&
                   (
-                    <div>
-                      <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
-                        Start Work Session
-                      </button>
-                      <button className="btn btn-default"
-                        onClick={this.handleTakeBreak}
-                        disabled={this.state.sessionType === null || this.state.sessionType === BREAK5} >
-                        Take A Break
-                      </button>
-                    </div>
+                    this.state.timerStatus !== STARTED  &&
+                    (
+                      <div>
+                        <button className="btn btn-primary" onClick={this.handleStartWorkSession}>
+                          Start Work Session
+                        </button>
+                        <button className="btn btn-default"
+                          onClick={this.handleTakeBreak}
+                          disabled={this.state.workCounter === 0} >
+                          Take A Break
+                        </button>
+                      </div>
+                    )
                   )
+                }
+                {/* 30-min break timer appears after 4 work sessions completed */}
+                {this.state.workCounter === 4 &&
+                  <div>
+                    <p>Look at you being all productive! You deserve a longer break.</p>
+                    <button className="btn btn-primary" onClick={this.handleBreak30}>
+                      30 Minute Break
+                    </button>
+                  </div>
                 }
                 {/* Timer apears when click work-session or break buttons */}
                 { this.state.timerStatus === STARTED && this.getTimer(this.state.sessionType)}

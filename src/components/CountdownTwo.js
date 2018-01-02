@@ -33,7 +33,7 @@ class Countdown extends Component {
       if (this.state.timeRemaining === 0) {
         this.setState(() => ({ complete: true }) );
         clearInterval(this.timer);
-        setTimeout(() => this.props.timerFinished(), 3000);
+        setTimeout(() => this.props.timerFinished(), 2000);
       }
     }
   }

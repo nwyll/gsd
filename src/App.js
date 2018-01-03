@@ -39,17 +39,17 @@ class App extends Component {
     switch(type) {
       case WORK:
             return <Timer
-              minutes={.05}
+              minutes={25}
               timerFinished={this.timerFinished}
             />;
       case BREAKSHORT:
             return <Timer
-              minutes={.05}
+              minutes={5}
               timerFinished={this.timerFinished}
             />;
       case BREAKLONG:
             return <Timer
-              minutes={.05}
+              minutes={30}
               timerFinished={this.timerFinished}
             />;
       default:

@@ -23,6 +23,7 @@ html,body {
 
 .main {
  height: 500px;
+ border: 2px solid #D3D3D3;
 }
 
 .sidebar {

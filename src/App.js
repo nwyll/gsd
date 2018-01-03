@@ -49,7 +49,7 @@ class App extends Component {
             />;
       case BREAKLONG:
             return <Timer
-              minutes={30}
+              minutes={15}
               timerFinished={this.timerFinished}
             />;
       default:

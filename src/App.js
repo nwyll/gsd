@@ -19,7 +19,7 @@ class App extends Component {
       timerStatus: NOT_STARTED,
       sessionType: null,
       workCounter: 0,
-      tasks: ["Pomodoro Project", "Indecision App", "Resume"],
+      tasks: [],
     }
 
     this.audioElement = document.createElement('audio');
@@ -27,9 +27,7 @@ class App extends Component {
     this.audioElement.preload = 'auto';
 
     this.getTimer = this.getTimer.bind(this);
-    this.handleStartWorkSession = this.handleStartWorkSession.bind(this);
-    this.handleBreakShort = this.handleBreakShort.bind(this);
-    this.handleBreakLong = this.handleBreakLong.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
     this.handleClearList = this.handleClearList.bind(this);
     this.timerFinished = this.timerFinished.bind(this);
@@ -57,35 +55,23 @@ class App extends Component {
     }
   }
 
-  handleStartWorkSession() {
-    // set timerStatus to started and sessionType to work
+  handleClick(sessionType) {
+    // set timerStatus to started and sessionType
     this.setState(() => {
       return {
         timerStatus: STARTED,
-        sessionType: WORK
+        sessionType: sessionType
       }
     });
-  }
 
-  handleBreakShort() {
-    // set timerStatus to started and sessionType to take5
-    this.setState(() => {
-      return {
-        timerStatus: STARTED,
-        sessionType: BREAKSHORT
-      }
-    });
-  }
-
-  handleBreakLong() {
-    // set timerStatus to started and sessionType to take5
-    this.setState(() => {
-      return {
-        timerStatus: STARTED,
-        sessionType: BREAKLONG,
-        workCounter: 0
-      }
-    });
+    //if its a long break also reset work counter to 0
+    if (sessionType === BREAKLONG) {
+      this.setState(() => {
+        return {
+          workCounter: 0
+        }
+      });
+    }
   }
 
   timerFinished() {
@@ -151,11 +137,11 @@ class App extends Component {
                 this.state.timerStatus !== STARTED && this.state.workCounter < 4 &&
                 (
                   <div className="d-flex">
-                    <button className="btn btn-primary m-2" onClick={this.handleStartWorkSession}>
+                    <button className="btn btn-primary m-2" onClick={() => {this.handleClick(WORK)}}>
                       Start Work Session
                     </button>
                     <button className="btn btn-secondary m-2"
-                      onClick={this.handleBreakShort}
+                      onClick={() => {this.handleClick(BREAKSHORT)}}
                       disabled={this.state.workCounter === 0} >
                       Take A Quick Break
                     </button>
@@ -166,7 +152,7 @@ class App extends Component {
               {this.state.workCounter === 4 &&
                 <div>
                   <p>Look at you being all productive! You deserve a longer break.</p>
-                  <button className="btn btn-primary" onClick={this.handleBreakLong}>
+                  <button className="btn btn-primary" onClick={() => {this.handleClick(BREAKLONG)}}>
                     15 Minute Break
                   </button>
                 </div>

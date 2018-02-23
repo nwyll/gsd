@@ -8,6 +8,8 @@ GSD follows the traditional Pomodoro method using standardized 25-minute work pe
 
 When implemented with discipline, GSD can be a powerful tool to increase your productivity.
 
+![](./start_task.gif)
+
 ## [Demo Site](http://gsd-app-nwyll.s3-website-us-east-1.amazonaws.com/)
 
 ## Project Objectives
